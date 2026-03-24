@@ -9,16 +9,14 @@ public class Service
     private int _equipmentCounter;
     private int _rentalCounter;
     private Dictionary<UserType, int> userLimits;
-    public double penality { get; set; }
 
-    public Service(double penality)
+    public Service()
     {
         this._equipmentList = new List<Equipment>();
         this._users = new List<User>();
         this._rentals = new List<Rental>();
         this._userCounter = 0;
         this._equipmentCounter = 0;
-        this.penality = penality;
     }
 
     public void AddUser(string name, string surname, UserType userType)
@@ -156,5 +154,46 @@ public class Service
         {
             Console.WriteLine("No such Equipment exists");    
         }
+    }
+
+    public void ShowActiveRentalsForUser(int userid)
+    {
+        Console.WriteLine($"Active rentals for user {userid}");
+        foreach (Rental rental in _rentals)
+        {
+            if (rental.User.Id==userid & rental.ActualReturnDate == null) 
+                Console.WriteLine($"Rental ID: {rental.Id}");
+        }
+    }
+
+    public void ShowExpiredRentals()
+    {
+        Console.WriteLine("Expired rentals:");
+        foreach (Rental rental in _rentals)
+        {
+            if (rental.ActualReturnDate == null & rental.ExpectedReturnDate<DateTime.Now)
+                Console.WriteLine($"Rental ID: {rental.Id}, User ID: {rental.User.Id}");
+        }
+    }
+
+    public void ShowRaport()
+    {
+        int ActiveRentals = 0;
+        int ExpiredRentals = 0;
+        foreach (Rental rental in _rentals)
+        {
+            if (rental.ExpectedReturnDate == null)
+                if (rental.ExpectedReturnDate > DateTime.Now)
+                    ExpiredRentals++;
+                else
+                    ActiveRentals++;
+                
+        }
+        Console.WriteLine("Raport: ");
+        Console.WriteLine($"Amount of users: {_users.Count}");
+        Console.WriteLine($"Overall rentals: {_rentals.Count}");
+        Console.WriteLine($"Active rentals: {ActiveRentals}");
+        Console.WriteLine($"Expired rentals: {ExpiredRentals}");
+        
     }
 }
