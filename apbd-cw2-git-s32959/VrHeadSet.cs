@@ -3,14 +3,17 @@
 public class VrHeadSet : Equipment
 {
     public int RefreshRate { get; set; }
+    public string BatteryLife { get; set; }
 
     public VrHeadSet(string id,
         string name,
         bool available,
         double hourlyRentPrice,
-        int refreshRate)
+        int refreshRate,
+        string batteryLife)
         : base(id, name, available, hourlyRentPrice)
     {
         this.RefreshRate = refreshRate;
+        this.BatteryLife = batteryLife;
     }
 }
