@@ -126,11 +126,14 @@ public class Service
             if (rental.Id == rentalId)
             {
                 rental.ActualReturnDate = DateTime.Now;
-                TimeSpan? dateDiff = rental.ActualReturnDate - rental.ExpectedReturnDate;
-                Console.WriteLine($"Returned equipment {dateDiff?.Days} days late");
-                Console.WriteLine($"Extra costs for delay: " +
-                                  $"{dateDiff?.Days*rental.Equipment.DailyRentPrice}"
-                );
+                if (rental.ExpectedReturnDate != null)
+                {
+                    TimeSpan? dateDiff = rental.ActualReturnDate - rental.ExpectedReturnDate;
+                    Console.WriteLine($"Returned equipment {dateDiff?.Days} days late");
+                    Console.WriteLine($"Extra costs for delay: " +
+                                      $"{dateDiff?.Days*rental.Equipment.DailyRentPrice}"
+                    );    
+                }
                 rental.Equipment.Available = true;
                 rental.User.ActiveRentals--;
                 flag = false;
@@ -172,7 +175,7 @@ public class Service
         Console.WriteLine("Expired rentals:");
         foreach (Rental rental in _rentals)
         {
-            if (rental.ActualReturnDate == null & rental.ExpectedReturnDate<DateTime.Now)
+            if (rental.ActualReturnDate == null & rental.ExpectedReturnDate != null & rental.ExpectedReturnDate<DateTime.Now)
                 Console.WriteLine($"Rental ID: {rental.Id}, User ID: {rental.User.Id}");
         }
     }
