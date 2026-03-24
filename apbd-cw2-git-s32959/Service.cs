@@ -21,7 +21,7 @@ public class Service
 
     public void AddUser(string name, string surname, UserType userType)
     {
-        _users.Add(new User(_userCounter++, name, surname, userType));
+        _users.Add(new User(++_userCounter, name, surname, userType));
     }
     
     public void AddLaptop(
@@ -32,7 +32,7 @@ public class Service
     )
     {
         _equipmentList.Add(new Laptop(
-            this._equipmentCounter++, name, true, hourlyRentPrice, cpu, gpu
+            ++this._equipmentCounter, name, true, hourlyRentPrice, cpu, gpu
         ));
     }
 
@@ -44,7 +44,7 @@ public class Service
     )
     {
         this._equipmentList.Add(new Camera(
-            this._equipmentCounter++, name, true, hourlyRentPrice, resolution, fps
+            ++this._equipmentCounter, name, true, hourlyRentPrice, resolution, fps
         ));
     }
 
@@ -56,7 +56,7 @@ public class Service
     )
     {
         this._equipmentList.Add(new VrHeadSet(
-            this._equipmentCounter++, name, true, hourlyRentPrice, refreshRate, batteryLife
+            ++this._equipmentCounter, name, true, hourlyRentPrice, refreshRate, batteryLife
         ));
     }
 
@@ -107,7 +107,7 @@ public class Service
                     }
                     else
                     {
-                        Console.WriteLine("Limit reacher for user");
+                        Console.WriteLine("Limit reached for user");
                         flag = false;
                         break;
                     }
@@ -126,9 +126,10 @@ public class Service
             if (rental.Id == rentalId)
             {
                 rental.ActualReturnDate = DateTime.Now;
-                TimeSpan? dateDiff = rental.ExpectedReturnDate - rental.ActualReturnDate;
-                Console.WriteLine(
-                    dateDiff?.Days*rental.Equipment.DailyRentPrice
+                TimeSpan? dateDiff = rental.ActualReturnDate - rental.ExpectedReturnDate;
+                Console.WriteLine($"Returned equipment {dateDiff?.Days} days late");
+                Console.WriteLine($"Extra costs for delay: " +
+                                  $"{dateDiff?.Days*rental.Equipment.DailyRentPrice}"
                 );
                 rental.Equipment.Available = true;
                 rental.User.ActiveRentals--;

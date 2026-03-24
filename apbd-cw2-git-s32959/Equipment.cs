@@ -7,12 +7,12 @@ public abstract class Equipment
     public bool Available { get; set; }
     public double DailyRentPrice { get; set; }
     
-    public Equipment(int id, string name, bool available, double hourlyRentPrice)
+    public Equipment(int id, string name, bool available, double dailyRentPrice)
     {
         this.Id = id;
         this.Name = name;
         this.Available = available;
-        this.DailyRentPrice = hourlyRentPrice;
+        this.DailyRentPrice = dailyRentPrice;
     }
     
     public override string ToString()
