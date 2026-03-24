@@ -8,14 +8,17 @@ public class Service
     private int _userCounter;
     private int _equipmentCounter;
     private int _rentalCounter;
+    private Dictionary<UserType, int> userLimits;
+    public double penality { get; set; }
 
-    public Service()
+    public Service(double penality)
     {
         this._equipmentList = new List<Equipment>();
         this._users = new List<User>();
         this._rentals = new List<Rental>();
         this._userCounter = 0;
         this._equipmentCounter = 0;
+        this.penality = penality;
     }
 
     public void AddUser(string name, string surname, UserType userType)
@@ -83,14 +86,34 @@ public class Service
             foreach (Equipment equipment in _equipmentList)
             {
                 if (user.Id==userid && equipment.Id==equipmentId) {
-                    _rentals.Add(new Rental(
-                        _rentalCounter++, 
-                        user, 
-                        equipment,
-                        DateTime.Now, 
-                        DateTime.Now.AddDays(days)
-                    ));
-                    flag = false;
+                    if (user.ActiveRentals < (int)user.UserType)
+                    {
+                        if (equipment.Available)
+                        {
+                            _rentals.Add(new Rental(
+                                _rentalCounter++, 
+                                user, 
+                                equipment,
+                                DateTime.Now, 
+                                DateTime.Now.AddDays(days)
+                            ));
+                            user.ActiveRentals++;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Equipment not available for rent");
+                            flag = false;
+                            break;
+                        }
+                        flag = false;    
+                    }
+                    else
+                    {
+                        Console.WriteLine("Limit reacher for user");
+                        flag = false;
+                        break;
+                    }
+                    
                 }
             }
         }
@@ -110,9 +133,28 @@ public class Service
                     dateDiff?.Days*rental.Equipment.DailyRentPrice
                 );
                 rental.Equipment.Available = true;
+                rental.User.ActiveRentals--;
                 flag = false;
             }
         }
         if (flag) Console.WriteLine("No such Rental in Database");
+    }
+
+    public void MakeEquipmentUnavailable(int equipmentId)
+    {
+        bool flag = true;
+        foreach (Equipment equipment in _equipmentList)
+        {
+            if (equipment.Id == equipmentId)
+            {
+                equipment.Available = false;
+                flag = false;
+            }
+        }
+
+        if (flag)
+        {
+            Console.WriteLine("No such Equipment exists");    
+        }
     }
 }

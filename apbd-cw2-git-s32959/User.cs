@@ -6,6 +6,8 @@ public class User
     public string Name { get; set; }
     public string Surname { get; set; }
     public UserType UserType { get; set; }
+    
+    public int ActiveRentals { get; set; }
 
     public User(int id, string name, string surname, UserType userType)
     {
@@ -13,6 +15,7 @@ public class User
         this.Name = name;
         this.Surname = surname;
         this.UserType = userType;
+        this.ActiveRentals = 0;
     }
 
     public override string ToString()
