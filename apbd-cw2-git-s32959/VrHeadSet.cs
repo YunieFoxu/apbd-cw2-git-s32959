@@ -5,7 +5,7 @@ public class VrHeadSet : Equipment
     public int RefreshRate { get; set; }
     public string BatteryLife { get; set; }
 
-    public VrHeadSet(string id,
+    public VrHeadSet(int id,
         string name,
         bool available,
         double hourlyRentPrice,
@@ -15,5 +15,12 @@ public class VrHeadSet : Equipment
     {
         this.RefreshRate = refreshRate;
         this.BatteryLife = batteryLife;
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + System.Environment.NewLine +
+               $"RefreshRate: {this.RefreshRate}" + System.Environment.NewLine +
+               $"BatteryLife: {this.BatteryLife}";
     }
 }

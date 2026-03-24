@@ -6,7 +6,7 @@ public class Camera : Equipment
     public int Fps { get; set; }
 
     public Camera(
-        string id, 
+        int id, 
         string name, 
         bool available, 
         double hourlyRentPrice,
@@ -18,4 +18,11 @@ public class Camera : Equipment
             this.Resolution = resolution;
             this.Fps = fps;
         }
+
+    public override string ToString()
+    {
+        return base.ToString() + System.Environment.NewLine +
+               $"Resolution: {this.Resolution}" + System.Environment.NewLine +
+               $"Fps: {this.Fps}";
+    }
 }

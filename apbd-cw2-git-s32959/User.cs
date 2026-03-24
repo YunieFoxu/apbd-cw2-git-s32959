@@ -14,4 +14,12 @@ public class User
         this.Surname = surname;
         this.UserType = userType;
     }
+
+    public override string ToString()
+    {
+        return $"ID: {this.Id}" + System.Environment.NewLine +
+               $"Name: {this.Name}" + System.Environment.NewLine +
+               $"Surname: {this.Surname}" + System.Environment.NewLine +
+               $"UserType: {this.UserType}";
+    }
 }

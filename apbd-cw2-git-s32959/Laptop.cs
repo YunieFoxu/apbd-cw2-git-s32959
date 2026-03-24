@@ -6,7 +6,7 @@ public class Laptop : Equipment
     public string Gpu{ get; set; }
     
     public Laptop(
-        string id, 
+        int id, 
         string name, 
         bool available, 
         double hourlyRentPrice,
@@ -16,5 +16,12 @@ public class Laptop : Equipment
     {
         this.Cpu = cpu;
         this.Gpu = gpu;
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + System.Environment.NewLine +
+               $"CPU: {this.Cpu}" + System.Environment.NewLine +
+               $"GPU: {this.Gpu}";
     }
 }
